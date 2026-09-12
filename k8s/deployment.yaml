@@ -18,3 +18,9 @@ spec:
           image: argocd-app:v1
           ports:
            - containerPort: 9000
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: argocd-app-config
+                  key: APP_ENV
