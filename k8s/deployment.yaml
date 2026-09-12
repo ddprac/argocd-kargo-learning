@@ -24,3 +24,8 @@ spec:
                 configMapKeyRef:
                   name: argocd-app-config
                   key: APP_ENV
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-app-secret
+                  key: DB_PASSWORD
