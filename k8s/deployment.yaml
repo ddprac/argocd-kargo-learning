@@ -18,6 +18,18 @@ spec:
           image: argocd-app:v1
           ports:
            - containerPort: 9000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 10
           env:
             - name: APP_ENV
               valueFrom:
