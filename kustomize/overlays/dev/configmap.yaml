@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-app-config
+  namespace: argocd-learning
+data:
+  APP_ENV: development
