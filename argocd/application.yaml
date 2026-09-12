@@ -3,14 +3,20 @@ kind: Application
 metadata:
   name: flask-dev
   namespace: argocd
+
 spec:
   project: default
-  source: 
+
+  source:
     repoURL: https://github.com/ddprac/argocd-kargo-learning
     targetRevision: main
     path: kustomize/overlays/dev
+
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd-learning
+
   syncPolicy:
-    automated: {}
+    automated:
+      selfHeal: true
+      prune: true

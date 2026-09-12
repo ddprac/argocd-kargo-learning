@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prune-demo
+  namespace: argocd-learning
+data:
+  message: "This ConfigMap is for testing Argo CD pruning"
