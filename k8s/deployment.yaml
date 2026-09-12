@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-app
+  namespace: argocd-learning
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argocd-app
+  template:
+    metadata:
+      labels:
+        app: argocd-app
+    spec:
+      containers:
+        - name: argocd-app
+          image: argocd-app:v1
+          ports:
+           - containerPort: 9000
