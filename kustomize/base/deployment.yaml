@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-app
+  namespace: argocd-learning
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argocd-app
+  template:
+    metadata:
+      labels:
+        app: argocd-app
+    spec:
+      containers:
+        - name: argocd-app
+          image: argocd-app:v1
+          ports:
+           - containerPort: 9000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: argocd-app-config
+                  key: APP_ENV
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-app-secret
+                  key: DB_PASSWORD
