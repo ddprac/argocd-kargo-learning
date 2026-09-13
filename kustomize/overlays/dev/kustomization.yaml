@@ -7,7 +7,5 @@ patches:
 - path: configmap.yaml
 - path: deployment.yaml
 images:
-- name: argocd-app
-  newTag: v1.0.0
 - name: ghcr.io/ddprac/argocd-app
   newTag: v1.0.0
