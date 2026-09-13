@@ -1,0 +1,49 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: argocd-learning
+
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: argocd-app
+      sources:
+        direct: true
+
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/ddprac/argocd-kargo-learning.git
+
+        - name: imageRepo
+          value: ghcr.io/ddprac/argocd-app
+
+      steps:
+        - uses: git-clone
+          config:
+            repoURL: ${{ vars.gitRepo }}
+            checkout:
+              - branch: main
+                path: ./src
+
+        - uses: kustomize-set-image
+          as: update-image
+          config:
+            path: ./src/kustomize/overlays/dev
+            images:
+              - image: ${{ vars.imageRepo }}
+                tag: ${{ imageFrom(vars.imageRepo).Tag }}
+
+        - uses: git-commit
+          as: commit
+          config:
+            path: ./src
+            message: ${{ outputs['update-image'].commitMessage }}
+
+        - uses: git-push
+          config:
+            path: ./src
+            targetBranch: main
