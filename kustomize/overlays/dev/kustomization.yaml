@@ -8,4 +8,4 @@ patches:
   - path: deployment.yaml
 images:
   - name: argocd-app
-    newTag: v2
+    newTag: v1.0.0
