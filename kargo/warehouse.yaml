@@ -1,0 +1,11 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: argocd-app
+  namespace: argocd-learning
+
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/ddprac/argocd-app
+        tagSelectionStrategy: SemVer
